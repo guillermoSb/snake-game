@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snake Game</title>
 </head>
+
 <style>
     * {
         padding: 0;
@@ -19,7 +20,7 @@
         background-color: gray;
     }
 
-    .game {
+    #game {
         background-color: #eee;
         display: grid;
         height: 100vmin;
@@ -32,13 +33,12 @@
     .item {
         background-color: red;
         text-align: center;
-        grid-column: 2;
-        grid-row: 2;
     }
 </style>
 <body>
-    <div class="game">
-        <div class="item"></div>        
+    <div id="game">    
     </div>
+    <script src="app.js"></script>
+
 </body>
 </html>
