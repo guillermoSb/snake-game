@@ -5,28 +5,51 @@
  * @param {string} movement 
  */
 function updateSnakePosition(snake, movement) {
-    const gameContainer = document.getElementById('game');  // Get the game container
+
     // Calculate snake position
     if (movement === 'ArrowRight') {
-        moveSnake(snake, 'right');
+        snake = moveSnake(snake, 'right');
     } else if (movement === 'ArrowLeft') {
-        moveSnake(snake, 'left');
+        snake = moveSnake(snake, 'left');
     } else if (movement === 'ArrowUp') {
-        moveSnake(snake, 'up');
+        snake = moveSnake(snake, 'up');
     } else if (movement === 'ArrowDown') {
-        moveSnake(snake, 'down');
+        snake = moveSnake(snake, 'down');
     };
-    // clean the whole snake
-    const items = document.getElementsByClassName('item');
-    for (const item of items) {
-        item.remove();
-    }
+
+    return snake;
+}
+
+/**
+ * Draws the initial snake
+ * @param {*} snake 
+ */
+function drawInitialSnake(snake) {
+    const gameContainer = document.getElementById('game');  // Get the game container
     // Update the snake on the HTML
     for (const snakepart of snake) {
         const snakeElement = document.createElement('div'); // Create the new snake element
-        snakeElement.className = 'item';
+        snakeElement.className = 'item-snake ';
         snakeElement.style.gridColumn = snakepart.x;
         snakeElement.style.gridRow = snakepart.y;
+        gameContainer.appendChild(snakeElement);
+    }
+}
+
+/**
+ * 
+ * @param {{x: number, y:number}[]} snake 
+ * @param {number} count 
+ */
+function growSnake(snake, count) {
+    const gameContainer = document.getElementById('game');  // Get the game container
+    for (let index = 0; index < count; index++) {
+        // * 1. Get last element
+        snake.push(snake[snake.length - 1]);
+        const snakeElement = document.createElement('div'); // Create the new snake element
+        snakeElement.className = 'item-snake ';
+        snakeElement.style.gridColumn = snake[snake.length - 1].x;
+        snakeElement.style.gridRow = snake[snake.length - 1].y;
         gameContainer.appendChild(snakeElement);
     }
     return snake;
@@ -41,26 +64,35 @@ function updateSnakePosition(snake, movement) {
  * @param {string} direction 
  */
 function moveSnake(snake, direction) {
-    let previousPostion = {x: 0, y: 0}
-    for (let index = 0; index < snake.length; index++) {
-        const snakePart = snake[index];
-        if (index === 0) {
-            if (direction === 'right') {
-                snake[index].x += 1;
-            } else if (direction === 'left') {
-                snake[index].x -= 1;
-            } else if (direction === 'up') {
-                snake[index].y -= 1;
-            }  else if (direction === 'down') {
-                snake[index].y += 1;
-            }
-        } else {
-            snake[index] = previousPostion;
-        }
-        
-        
-        previousPostion = snakePart;
+    const gameContainer = document.getElementById('game');  // Get the game container
+    const snakeParts = gameContainer.getElementsByClassName('item-snake');
+    snakeParts[snakeParts.length - 1].remove(); // Remove the last snake parts
+    const firstNode = {...snake[0]};
+    // * 2. Calculate new position
+    if (direction === 'right') {
+        firstNode.x += 1;
+    } else if (direction === 'left') {
+        firstNode.x -= 1;
+    } else if (direction === 'up') {
+        firstNode.y -= 1;
+    } else if (direction === 'down') {
+        firstNode.y += 1;
     }
+    let lastNode = snake.pop();
+    lastNode = firstNode;
+    const snakeElement = document.createElement('div'); // Create the new snake element
+    snakeElement.className = 'item-snake';
+    snakeElement.style.gridColumn = lastNode.x;
+    snakeElement.style.gridRow = lastNode.y;
+    gameContainer.prepend(snakeElement);
+
+    let newSnake = [...snake];
+    newSnake.unshift(lastNode);
+
+    return newSnake;
+
+
+
 }
 
 

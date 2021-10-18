@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snake Game</title>
+    <title>Snake Game | Made by Guillermo</title>
 </head>
 
 <style>
@@ -30,14 +30,25 @@
 
     }
 
-    .item {
+    .item-snake {
         background-color: red;
-        text-align: center;
+        border: 2px dashed #000;
     }
+    .item-snake:first-child {
+        background-color: yellowgreen;
+        border: 2px dashed #000;
+    }
+
+    .item-food {
+        background-color: yellow;
+        border: 2px solid #000;
+    }
+ 
 </style>
 <body>
     <div id="game">    
     </div>
+    <script src="food.js"></script>
     <script src="snake.js"></script>
     <script src="app.js"></script>
 
